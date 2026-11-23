@@ -3,3 +3,6 @@ __pycache__/
 *.py[cod]
 .streamlit/secrets.toml
 .DS_Store
+data/raw/
+data/amazon_reviews.csv
+outputs/
