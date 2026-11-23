@@ -1,10 +1,8 @@
 # E-Commerce Product Review Sentiment Analysis
 
-A Streamlit dashboard for exploring review sentiment and product-level feedback. The project follows the report's Spark/MLlib workflow terminology: clean review data, map ratings to negative/neutral/positive labels, convert review text to TF-IDF features, compare classifiers, and summarize product performance.
+A Streamlit dashboard and Apache Spark MLlib pipeline for exploring e-commerce review sentiment and product feedback. The project follows the report's workflow: clean review data, map ratings to negative/neutral/positive labels, tokenize text, remove stopwords, build CountVectorizer and TF-IDF features, compare classifiers, and summarize product performance.
 
-The dashboard runs locally with a lightweight scikit-learn equivalent for text prediction. It does not require a Spark cluster.
-
-## Run locally
+## Run the dashboard
 
 ```bash
 python -m venv .venv
@@ -14,38 +12,42 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Dashboard features
+Upload a CSV with review text plus ratings or sentiment labels. The dashboard also offers a small illustrative sample when no data is uploaded.
 
-- Upload a CSV of reviews and filter by product, sentiment, or review text.
-- View sentiment and rating distributions, product summaries, and export filtered rows.
-- Train a TF-IDF + Logistic Regression model from supplied labels and predict a review.
-- See holdout accuracy and macro F1 computed from the uploaded data.
-- Inspect the report's Naive Bayes vs. Logistic Regression synthetic benchmark context.
+## Download the Kaggle dataset
 
-The built-in sample rows are only a demonstration dataset. They are not Amazon data.
+The project uses [Consumer Reviews of Amazon Products on Kaggle](https://www.kaggle.com/datasets/datafiniti/consumer-reviews-of-amazon-products), which includes 34,000+ product reviews. The listing identifies the license as **CC BY-NC-SA 4.0**. Review the dataset's terms before redistribution or commercial use.
+
+Kaggle requires an account token for downloads. Configure the Kaggle API credentials using Kaggle's official instructions, then run:
+
+```bash
+pip install -r requirements-data.txt
+python scripts/download_kaggle_data.py
+```
+
+The script downloads the Kaggle source to `data/raw/`, normalizes the review text, rating, and product columns into `data/amazon_reviews.csv`, and creates a three-class sentiment label from ratings (1–2 negative, 3 neutral, 4–5 positive). The raw source is not committed; download it directly from Kaggle with your own account. After download, start the dashboard and upload `data/amazon_reviews.csv`.
+
+## Apache Spark / MLlib pipeline
+
+Install the optional Spark dependencies and run the distributed pipeline:
+
+```bash
+pip install -r requirements-spark.txt
+spark-submit src/spark_pipeline.py --input data/amazon_reviews.csv --output outputs/sentiment_predictions
+```
+
+It uses Spark SQL for cleaning and product-level summaries, then MLlib Tokenizer, StopWordsRemover, CountVectorizer, IDF, NaiveBayes, and LogisticRegression. Outputs include model metrics and product summaries.
 
 ## CSV format
 
-Required review text column: `review_text`, `text`, `review`, or `content`.
+Required text column: `review_text`, `text`, `review`, or `content`.
 
-Optional columns:
-- `rating` (or `overall`, `score`, `stars`): numeric 1–5 rating. If sentiment is absent, labels are inferred as 1–2 negative, 3 neutral, and 4–5 positive.
-- `sentiment` (or `label`, `sentiment_label`): positive, neutral, or negative.
-- `product_id` (or `asin`, `product`, `product_name`, `name`): product identifier or name.
+Optional columns: `rating` / `overall` / `score` / `stars`, `sentiment` / `label`, and `product_id` / `asin` / `product_name` / `name`.
 
-Example:
+## Benchmark disclosure
 
-```csv
-product_id,rating,review_text
-A100,5,"Great quality and fast delivery"
-A100,2,"Stopped working after two days"
-B200,3,"It is okay for the price"
-```
+The source report describes a **synthetic benchmark** comparing Naive Bayes and Logistic Regression. Those results are illustrative and are not measured on the real Amazon review corpus. The dashboard does not present synthetic results as corpus performance. Spark metrics are calculated on the dataset downloaded and run by the user.
 
-## Benchmark and evaluation disclosure
+## Scope
 
-The project report describes a **synthetic benchmark** comparing Naive Bayes and Logistic Regression. Those benchmark values are illustrative and must not be presented as results from the real Amazon corpus. The dashboard labels the benchmark accordingly. The live holdout metrics are calculated from the uploaded data and can vary with dataset size, class balance, and split composition. Tiny datasets are not suitable for claims about model quality.
-
-## Project scope
-
-The report's full-scale design uses Apache Spark and MLlib for distributed processing. This dashboard provides an accessible local equivalent for demonstration and interactive review analysis; it does not claim to process millions of records or run Spark.
+The original report proposes Apache Spark and MLlib for distributed processing. This repository includes both a lightweight local Streamlit prediction workflow and a Spark MLlib pipeline. Neither claims that the dashboard itself processes millions of records.
