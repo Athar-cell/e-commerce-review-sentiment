@@ -84,13 +84,13 @@ if data.empty:
     st.stop()
 
 with st.sidebar:
-    products = sorted(data.product.unique())
+    products = sorted(data["product"].unique())
     selected_products = st.multiselect("Products", products, default=products)
     sentiments = ["positive","neutral","negative"]
     selected_sentiments = st.multiselect("Sentiment", sentiments, default=sentiments)
     search = st.text_input("Search review text")
 
-filtered = data[data.product.isin(selected_products) & data.sentiment.isin(selected_sentiments)]
+filtered = data[data["product"].isin(selected_products) & data.sentiment.isin(selected_sentiments)]
 if search.strip():
     filtered = filtered[filtered.review_text.str.contains(search, case=False, na=False)]
 
