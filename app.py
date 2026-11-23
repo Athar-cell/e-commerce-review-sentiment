@@ -99,7 +99,7 @@ c1,c2,c3,c4 = st.columns(4)
 c1.metric("Reviews", f"{total:,}")
 c2.metric("Average rating", f"{filtered.rating.mean():.2f} / 5" if filtered.rating.notna().any() else "N/A")
 c3.metric("Positive share", f"{(filtered.sentiment.eq('positive').mean()*100):.1f}%" if total else "0%")
-c4.metric("Products", f"{filtered.product.nunique():,}")
+c4.metric("Products", f"{filtered["product"].nunique():,}")
 
 left,right = st.columns(2)
 with left:
