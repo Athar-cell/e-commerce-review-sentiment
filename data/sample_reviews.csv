@@ -1,0 +1,33 @@
+product_id,product_name,rating,review_text,sentiment
+P-100,Wireless Headphones,5,Excellent sound and comfortable all day,positive
+P-100,Wireless Headphones,4,Clear audio and battery lasts a long time,positive
+P-100,Wireless Headphones,5,Great fit and surprisingly rich bass,positive
+P-100,Wireless Headphones,4,Easy pairing and very comfortable,positive
+P-100,Wireless Headphones,2,Stopped working after only one week,negative
+P-100,Wireless Headphones,1,Left ear stopped producing sound,negative
+P-100,Wireless Headphones,2,Battery drains too quickly,negative
+P-100,Wireless Headphones,3,Sound is okay but the fit is average,neutral
+P-200,Travel Mug,5,Keeps coffee hot and never leaks,positive
+P-200,Travel Mug,4,Sturdy mug and easy to clean,positive
+P-200,Travel Mug,5,Perfect size for my commute,positive
+P-200,Travel Mug,4,Good insulation and secure lid,positive
+P-200,Travel Mug,1,Lid leaks in my bag,negative
+P-200,Travel Mug,2,Paint started peeling after a few washes,negative
+P-200,Travel Mug,2,Does not keep drinks warm for long,negative
+P-200,Travel Mug,3,Works fine but nothing special,neutral
+P-300,Desk Lamp,5,Bright light and easy to adjust,positive
+P-300,Desk Lamp,4,Simple controls and useful brightness levels,positive
+P-300,Desk Lamp,5,Looks great on my desk and works perfectly,positive
+P-300,Desk Lamp,4,Flexible arm makes it easy to position,positive
+P-300,Desk Lamp,1,Flickers constantly and is unusable,negative
+P-300,Desk Lamp,2,Cheap materials and unstable base,negative
+P-300,Desk Lamp,2,The switch stopped working,negative
+P-300,Desk Lamp,3,It works as described,neutral
+P-400,Insulated Bottle,5,Stays cold all day and feels durable,positive
+P-400,Insulated Bottle,4,Good quality bottle with a handy cap,positive
+P-400,Insulated Bottle,5,No leaks and easy to carry,positive
+P-400,Insulated Bottle,4,Great bottle for the gym,positive
+P-400,Insulated Bottle,1,Seal failed and water leaked everywhere,negative
+P-400,Insulated Bottle,2,Hard to clean and retains odors,negative
+P-400,Insulated Bottle,2,Cap cracked after a few uses,negative
+P-400,Insulated Bottle,3,Decent bottle but a little heavy,neutral
