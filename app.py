@@ -121,6 +121,9 @@ if total:
     summary=filtered.groupby("product").agg(reviews=("review_text","size"),average_rating=("rating","mean"),positive=("sentiment",lambda s:(s=="positive").mean()*100),neutral=("sentiment",lambda s:(s=="neutral").mean()*100),negative=("sentiment",lambda s:(s=="negative").mean()*100)).reset_index()
     summary=summary.rename(columns={"product":"Product","reviews":"Reviews","average_rating":"Avg. rating","positive":"Positive %","neutral":"Neutral %","negative":"Negative %"})
     st.dataframe(summary.style.format({"Avg. rating":"{:.2f}","Positive %":"{:.1f}%","Neutral %":"{:.1f}%","Negative %":"{:.1f}%"}),use_container_width=True,hide_index=True)
+    sentiment_by_product = summary.melt(id_vars="Product", value_vars=["Positive %", "Neutral %", "Negative %"], var_name="Sentiment", value_name="Share")
+    sentiment_by_product["Sentiment"] = sentiment_by_product["Sentiment"].str.replace(" %", "", regex=False)
+    st.plotly_chart(px.bar(sentiment_by_product, x="Product", y="Share", color="Sentiment", barmode="group", text_auto=".0f", color_discrete_map={"Positive":"#19a974","Neutral":"#f4b942","Negative":"#e05d5d"}, title="Sentiment mix by product"), use_container_width=True)
     st.download_button("Download filtered reviews",filtered.to_csv(index=False).encode("utf-8"),"filtered_reviews.csv","text/csv")
 else:
     st.info("No rows match the current filters.")
